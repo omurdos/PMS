@@ -9,12 +9,10 @@ namespace Core.Entities
 {
     public class Provider : Entity
     {
-        [Required(ErrorMessage = "Please provide the provider name")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Please provide the provider name")]
         public string ContactName { get; set; }
-        [Required(ErrorMessage = "Please provide the provider name")]
         public string ContactPhoneNumber { get; set; }
-        public ICollection<Manufacturer> Manufacturers { get; set; }
+        public ICollection<ManufacturerProvider> ManufacturerProviders { get; set; }
+
     }
 }

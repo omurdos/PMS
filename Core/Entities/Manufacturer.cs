@@ -13,5 +13,6 @@ namespace Core.Entities
         public string Name { get; set; }
         public ICollection<Provider> Providers { get; set; }
         public ICollection<Model> Models { get; set; }
+        public ICollection<ManufacturerProvider> ManufacturerProviders { get; set; }
     }
 }

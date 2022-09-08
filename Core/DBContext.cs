@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class DBContext : IdentityDbContext<User,IdentityRole, string>
+    public class DBContext : IdentityDbContext<User, IdentityRole, string>
     {
 
         private string LocalDBConnection = "Server=localhost;Port=3306;Database=PMS;Uid=root;Pwd=;";
@@ -21,8 +21,9 @@ namespace Core
         public virtual DbSet<Manufacturer> Manufacturers { get; set; }
         public virtual DbSet<Model> Models { get; set; }
         public virtual DbSet<Provider> Providers { get; set; }
-        public virtual DbSet<Shop> Shops{ get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
+        public virtual DbSet<ManufacturerProvider> ManufacturerProvider { get; set; }
 
 
         public DBContext()
@@ -33,7 +34,8 @@ namespace Core
         {
 
         }
-        protected override void OnModelCreating(ModelBuilder builder) {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
             base.OnModelCreating(builder);
             foreach (var fk in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
@@ -48,7 +50,8 @@ namespace Core
             optionsBuilder.UseMySql(LocalDBConnection, ServerVersion.Parse("10.4.22"));
         }
 
-        private void ConfigureRelations(ModelBuilder builder) {
+        private void ConfigureRelations(ModelBuilder builder)
+        {
             //Actions for loging all users actions.
             builder.Entity<Entities.Action>().HasKey(c => c.Id);
             builder.Entity<Entities.Action>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
@@ -83,6 +86,7 @@ namespace Core
             builder.Entity<Model>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Model>().Property(c => c.Name).IsRequired();
             builder.Entity<Model>().Property(c => c.IsActive).HasDefaultValue(true);
+            builder.Entity<Model>().HasOne(d => d.Manufacturer).WithMany(s => s.Models).HasForeignKey(w => w.ManufacturerId);
             //Provider
             builder.Entity<Provider>().HasKey(c => c.Id);
             builder.Entity<Provider>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
@@ -99,6 +103,36 @@ namespace Core
             builder.Entity<Status>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Status>().Property(c => c.Name).IsRequired();
             builder.Entity<Status>().Property(c => c.IsActive).HasDefaultValue(true);
+
+            builder.Entity<ManufacturerProvider>()
+       .HasKey(bc => new { bc.ManufacturerId, bc.ProviderId });
+            builder.Entity<ManufacturerProvider>()
+                .HasOne(bc => bc.Provider)
+                .WithMany(b => b.ManufacturerProviders)
+                .HasForeignKey(bc => bc.ProviderId);
+            builder.Entity<ManufacturerProvider>()
+                .HasOne(bc => bc.Manufacturer)
+                .WithMany(c => c.ManufacturerProviders)
+                .HasForeignKey(bc => bc.ManufacturerId);
+
+            //Manufacturer & Provider relation configuration
+            // builder.Entity<Provider>()
+            //.HasMany(p => p.Manufacturers)
+            //.WithMany(p => p.Providers)
+            //.UsingEntity<ManufacturerProvider>(
+            //    j => j
+            //        .HasOne(pt => pt.Provider)
+            //        .WithMany(t => t.ManufacturerProviders)
+            //        .HasForeignKey(pt => pt.ProviderId),
+            //    j => j
+            //        .HasOne(pt => pt.Manufacturer)
+            //        .WithMany(p => p.ManufacturerProviders)
+            //        .HasForeignKey(pt => pt.ManufacturerId),
+            //    j =>
+            //    {
+
+            //        j.HasKey(t => new { t.ProviderId, t.ManufacturerId });
+            //    });
         }
     }
 }
