@@ -13,7 +13,7 @@ namespace Core
     public class DBContext : IdentityDbContext<User, IdentityRole, string>
     {
 
-        private string LocalDBConnection = "Server=localhost;Port=3306;Database=PMS;Uid=root;Pwd=;";
+        private string LocalDBConnection = "Server=localhost;Port=3306;Database=pos_management_db;Uid=root;Pwd=;";
 
         public virtual DbSet<Entities.Action> Actions { get; set; }
         public virtual DbSet<Device> Devices { get; set; }

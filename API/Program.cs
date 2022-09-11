@@ -19,8 +19,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DBContext>();
-//builder.Host.UseSerilog((ctx, lc) => lc
-//    .WriteTo.File("Serilogs\\AppLogs.log", Serilog.Events.LogEventLevel.Verbose));
 builder.Services.AddIdentity<User, IdentityRole>(
                 options =>
                 {
