@@ -28,6 +28,10 @@ namespace API.MappingProfiles
 
             CreateMap<ProviderViewModel, Provider>().ReverseMap()
            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateProviderViewModel, Provider>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateProviderViewModel, Provider>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<StatusViewModel, Status>().ReverseMap()
            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));

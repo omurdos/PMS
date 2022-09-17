@@ -12,6 +12,7 @@ namespace Core.Entities
         public string Name { get; set; }
         public string ContactName { get; set; }
         public string ContactPhoneNumber { get; set; }
+        public string ContactEmailAddress { get; set; }
         public ICollection<ManufacturerProvider> ManufacturerProviders { get; set; }
 
     }
