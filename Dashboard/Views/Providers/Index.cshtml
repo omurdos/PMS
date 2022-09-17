@@ -1,0 +1,42 @@
+﻿@model List<Provider>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact name</th>
+                            <th>Contact phone</th>
+                            <th>Created By</th>
+                            <th>Created At</th>
+                            <th>Modified By</th>
+                            <th>Modified At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Provider provider in Model)
+                        {
+                            <tr>
+                                <td>@provider.Name</td>
+                                <td>@provider.ContactName</td>
+                                <td>@provider.ContactPhoneNumber</td>
+                                <td>@provider.CreatedBy</td>
+                                <td>@provider.CreatedAt</td>
+                                <td>@provider.ModifiedBy</td>
+                                <td>@provider.ModifiedAt</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
