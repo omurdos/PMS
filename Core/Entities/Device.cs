@@ -15,7 +15,7 @@ namespace Core.Entities
         public string EmirateId { get; set; }
         public Emirate Emirate { get; set; }
         public string ModelId { get; set; }
-        public Model Model { get; set; }
+        public DeviceModel Model { get; set; }
         public string ShopId { get; set; }
         public Shop Shop { get; set; }
         public string UserId { get; set; }

@@ -11,6 +11,8 @@ namespace Core.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public ICollection<Shop> Shops { get; set; }
+
         public ICollection<Device> Devices { get; set; }
     }
 }

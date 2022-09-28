@@ -59,7 +59,8 @@ namespace Dashboard.Controllers
                         TempData["SuccessMessage"] = $"<strong>Congrats!</strong>, {provider.Name} has been added successfully";
                         return RedirectToAction(nameof(Index));
                     }
-                    else {
+                    else
+                    {
                         ViewBag.Title = "Add new Provider";
                         ViewBag.ErrorMessage = $"<strong>Sorry!</strong>, We had some trouble adding the provider {provider.Name}, please contact Administrator";
                         return View(model);
@@ -80,23 +81,38 @@ namespace Dashboard.Controllers
         }
 
         // GET: ProvidersController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(string id)
         {
-            return View();
+            
+            var result = await _context.Providers.FindAsync(id);
+            var model = _mapper.Map<UpdateProviderViewModel>(result);
+            ViewBag.Title = $"Edit {model.Name}";
+            return View(model);
         }
 
         // POST: ProvidersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, UpdateProviderViewModel model)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var provider = await _context.Providers.FindAsync(id);
+                if (provider == null) {
+                    return RedirectToAction(nameof(Index));
+                }
+                _mapper.Map(model, provider);
+                _context.Providers.Update(provider);
+                var result = await _context.SaveChangesAsync();
+                if (result > 0) {
+                    TempData["SuccessMessage"] = $"<strong>Success!</strong>, Changes on {provider.Name} has been saved successfully";
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(model);
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
 

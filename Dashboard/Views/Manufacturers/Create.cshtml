@@ -1,0 +1,33 @@
+﻿@model CreateManufacturerViewModel
+@{
+    List<Provider> providers = ViewBag.Providers;
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <form asp-controller="Manufacturers" asp-action="Create" method="post">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="Name">Name</label>
+                        <input type="text" class="form-control" asp-for="Name">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Provider</label>
+                        <select asp-for="ProviderId" class="form-control" >
+                         <option>Select provider</option>
+                            @foreach(var provider in providers)
+                            {
+                                <option value="@provider.Id">@provider.Name</option>
+                            }
+                        </select>
+                      </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary  float-right  ml-1">Submit</button>
+                    <a class="btn btn-danger  float-right" asp-controller="Manufacturers" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

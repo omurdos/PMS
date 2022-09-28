@@ -3,6 +3,7 @@ using System;
 using Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20220922080249_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,14 +271,24 @@ namespace Core.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("Core.Entities.ManufacturerProvider", b =>
+                {
+                    b.Property<string>("ManufacturerId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("ProviderId")
                         .HasColumnType("varchar(255)");
 
-                    b.HasKey("Id");
+                    b.HasKey("ManufacturerId", "ProviderId");
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Manufacturers");
+                    b.ToTable("ManufacturerProvider");
                 });
 
             modelBuilder.Entity("Core.Entities.Provider", b =>
@@ -308,6 +320,9 @@ namespace Core.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("ManufacturerId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime(6)");
 
@@ -319,6 +334,8 @@ namespace Core.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
 
                     b.ToTable("Providers");
                 });
@@ -357,12 +374,7 @@ namespace Core.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Shops");
                 });
@@ -679,31 +691,38 @@ namespace Core.Migrations
             modelBuilder.Entity("Core.Entities.DeviceModel", b =>
                 {
                     b.HasOne("Core.Entities.Manufacturer", "Manufacturer")
-                        .WithMany("DeviceModels")
+                        .WithMany("Models")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Manufacturer");
                 });
 
-            modelBuilder.Entity("Core.Entities.Manufacturer", b =>
+            modelBuilder.Entity("Core.Entities.ManufacturerProvider", b =>
                 {
+                    b.HasOne("Core.Entities.Manufacturer", "Manufacturer")
+                        .WithMany("ManufacturerProviders")
+                        .HasForeignKey("ManufacturerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.Provider", "Provider")
-                        .WithMany("Manufacturers")
+                        .WithMany("ManufacturerProviders")
                         .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Manufacturer");
 
                     b.Navigation("Provider");
                 });
 
-            modelBuilder.Entity("Core.Entities.Shop", b =>
+            modelBuilder.Entity("Core.Entities.Provider", b =>
                 {
-                    b.HasOne("Core.Entities.User", "User")
-                        .WithMany("Shops")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Core.Entities.Manufacturer", null)
+                        .WithMany("Providers")
+                        .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -780,14 +799,18 @@ namespace Core.Migrations
                 {
                     b.Navigation("Actions");
 
-                    b.Navigation("DeviceModels");
+                    b.Navigation("ManufacturerProviders");
+
+                    b.Navigation("Models");
+
+                    b.Navigation("Providers");
                 });
 
             modelBuilder.Entity("Core.Entities.Provider", b =>
                 {
                     b.Navigation("Actions");
 
-                    b.Navigation("Manufacturers");
+                    b.Navigation("ManufacturerProviders");
                 });
 
             modelBuilder.Entity("Core.Entities.Shop", b =>
@@ -807,8 +830,6 @@ namespace Core.Migrations
             modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Navigation("Devices");
-
-                    b.Navigation("Shops");
                 });
 #pragma warning restore 612, 618
         }

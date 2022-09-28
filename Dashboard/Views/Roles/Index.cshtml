@@ -1,4 +1,4 @@
-﻿@model IPagedList<Provider>
+﻿@model IPagedList<IdentityRole>
 
 <div class="row">
     <div class="col-12">
@@ -12,7 +12,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-tools">
-                    <a asp-controller="Providers" asp-action="Create" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add new</a>
+                    <a asp-controller="roles" asp-action="Create" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add new</a>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -20,31 +20,17 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Contact name</th>
-                            <th>Contact email address</th>
-                            <th>Contact phone</th>
-                            <th>Created By</th>
-                            <th>Created At</th>
-                            <th>Modified By</th>
-                            <th>Modified At</th>
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Provider provider in Model)
+                        @foreach (IdentityRole role in Model)
                         {
                             <tr>
-                                <td>@provider.Name</td>
-                                <td>@provider.ContactName</td>
-                                <td>@provider.ContactEmailAddress</td>
-                                <td>@provider.ContactPhoneNumber</td>
-                                <td>@provider.CreatedBy</td>
-                                <td>@provider.CreatedAt</td>
-                                <td>@provider.ModifiedBy</td>
-                                <td>@provider.ModifiedAt</td>
-                                <td>
-                                    <a asp-controller="Providers" asp-action="Edit" asp-route-id="@provider.Id" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                                    <a asp-controller="Providers" asp-action="Delete" asp-route-id="@provider.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+                                <td>@role.Name</td>                  
+                                <td >
+                                    <a asp-controller="roles" asp-action="Edit" asp-route-id="@role.Id" class="btn btn-success btn-sm "><i class="fa fa-edit"></i> Edit</a>
+                                    <a asp-controller="roles" asp-action="Delete" asp-route-id="@role.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
                                 </td>
                             </tr>
                         }

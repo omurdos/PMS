@@ -23,7 +23,7 @@ namespace API.MappingProfiles
             CreateMap<ManufacturerDTO, Manufacturer>().ReverseMap()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-            CreateMap<ModelDTO, Model>().ReverseMap()
+            CreateMap<ModelDTO, DeviceModel>().ReverseMap()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ProviderDTO, Provider>().ReverseMap()

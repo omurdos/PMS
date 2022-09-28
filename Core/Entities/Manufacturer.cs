@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
 {
@@ -11,8 +6,8 @@ namespace Core.Entities
     {
         [Required]
         public string Name { get; set; }
-        public ICollection<Provider> Providers { get; set; }
-        public ICollection<Model> Models { get; set; }
-        public ICollection<ManufacturerProvider> ManufacturerProviders { get; set; }
+        public string ProviderId { get; set; }
+        public Provider Provider { get; set; }
+        public ICollection<DeviceModel> DeviceModels { get; set; }
     }
 }

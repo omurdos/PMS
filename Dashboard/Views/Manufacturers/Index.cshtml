@@ -1,5 +1,7 @@
-﻿@model IPagedList<Provider>
-
+﻿@model IPagedList<Manufacturer>
+@{
+    
+}
 <div class="row">
     <div class="col-12">
         @if (TempData["SuccessMessage"] != null && TempData["SuccessMessage"].ToString() != "")
@@ -12,7 +14,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-tools">
-                    <a asp-controller="Providers" asp-action="Create" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add new</a>
+                    <a asp-controller="manufacturers" asp-action="Create" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add new</a>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -20,9 +22,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Contact name</th>
-                            <th>Contact email address</th>
-                            <th>Contact phone</th>
+                            <th>Provider</th>
                             <th>Created By</th>
                             <th>Created At</th>
                             <th>Modified By</th>
@@ -31,20 +31,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Provider provider in Model)
+                        @foreach (Manufacturer manufacturer in Model)
                         {
                             <tr>
-                                <td>@provider.Name</td>
-                                <td>@provider.ContactName</td>
-                                <td>@provider.ContactEmailAddress</td>
-                                <td>@provider.ContactPhoneNumber</td>
-                                <td>@provider.CreatedBy</td>
-                                <td>@provider.CreatedAt</td>
-                                <td>@provider.ModifiedBy</td>
-                                <td>@provider.ModifiedAt</td>
+                                <td>@manufacturer.Name</td>
+                                <td>@(manufacturer.Provider == null? "" : manufacturer.Provider.Name)</td>
+                                <td>@manufacturer.CreatedBy</td>
+                                <td>@manufacturer.CreatedAt</td>
+                                <td>@manufacturer.ModifiedBy</td>
+                                <td>@manufacturer.ModifiedAt</td>
                                 <td>
-                                    <a asp-controller="Providers" asp-action="Edit" asp-route-id="@provider.Id" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                                    <a asp-controller="Providers" asp-action="Delete" asp-route-id="@provider.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+                                    <a asp-controller="manufacturers" asp-action="Edit" asp-route-id="@manufacturer.Id" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                    <a asp-controller="manufacturers" asp-action="Delete" asp-route-id="@manufacturer.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
                                 </td>
                             </tr>
                         }

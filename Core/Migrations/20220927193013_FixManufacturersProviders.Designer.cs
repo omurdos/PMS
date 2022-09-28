@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220917091507_AddEmailToProvider")]
-    partial class AddEmailToProvider
+    [Migration("20220927193013_FixManufacturersProviders")]
+    partial class FixManufacturersProviders
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,13 +36,13 @@ namespace Core.Migrations
                     b.Property<string>("DeviceId")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("DeviceModelId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("EmirateId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("ManufacturerId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ModelId")
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("ModifiedAt")
@@ -68,11 +68,11 @@ namespace Core.Migrations
 
                     b.HasIndex("DeviceId");
 
+                    b.HasIndex("DeviceModelId");
+
                     b.HasIndex("EmirateId");
 
                     b.HasIndex("ManufacturerId");
-
-                    b.HasIndex("ModelId");
 
                     b.HasIndex("ProviderId");
 
@@ -166,6 +166,46 @@ namespace Core.Migrations
                     b.ToTable("Devices");
                 });
 
+            modelBuilder.Entity("Core.Entities.DeviceModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ManufacturerId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.ToTable("DeviceModels");
+                });
+
             modelBuilder.Entity("Core.Entities.Emirate", b =>
                 {
                     b.Property<string>("Id")
@@ -231,64 +271,14 @@ namespace Core.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Manufacturers");
-                });
-
-            modelBuilder.Entity("Core.Entities.ManufacturerProvider", b =>
-                {
-                    b.Property<string>("ManufacturerId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("ProviderId")
                         .HasColumnType("varchar(255)");
 
-                    b.HasKey("ManufacturerId", "ProviderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("ManufacturerProvider");
-                });
-
-            modelBuilder.Entity("Core.Entities.Model", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ManufacturerId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("ModifiedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ManufacturerId");
-
-                    b.ToTable("Models");
+                    b.ToTable("Manufacturers");
                 });
 
             modelBuilder.Entity("Core.Entities.Provider", b =>
@@ -320,9 +310,6 @@ namespace Core.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("ManufacturerId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime(6)");
 
@@ -334,8 +321,6 @@ namespace Core.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ManufacturerId");
 
                     b.ToTable("Providers");
                 });
@@ -619,6 +604,11 @@ namespace Core.Migrations
                         .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Core.Entities.DeviceModel", null)
+                        .WithMany("Actions")
+                        .HasForeignKey("DeviceModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Core.Entities.Emirate", null)
                         .WithMany("Actions")
                         .HasForeignKey("EmirateId")
@@ -627,11 +617,6 @@ namespace Core.Migrations
                     b.HasOne("Core.Entities.Manufacturer", null)
                         .WithMany("Actions")
                         .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Core.Entities.Model", null)
-                        .WithMany("Actions")
-                        .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Core.Entities.Provider", null)
@@ -657,7 +642,7 @@ namespace Core.Migrations
                         .HasForeignKey("EmirateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Core.Entities.Model", "Model")
+                    b.HasOne("Core.Entities.DeviceModel", "Model")
                         .WithMany("Devices")
                         .HasForeignKey("ModelId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -688,41 +673,24 @@ namespace Core.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Core.Entities.ManufacturerProvider", b =>
+            modelBuilder.Entity("Core.Entities.DeviceModel", b =>
                 {
                     b.HasOne("Core.Entities.Manufacturer", "Manufacturer")
-                        .WithMany("ManufacturerProviders")
+                        .WithMany("DeviceModels")
                         .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Entities.Provider", "Provider")
-                        .WithMany("ManufacturerProviders")
-                        .HasForeignKey("ProviderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Manufacturer");
+                });
+
+            modelBuilder.Entity("Core.Entities.Manufacturer", b =>
+                {
+                    b.HasOne("Core.Entities.Provider", "Provider")
+                        .WithMany("Manufacturers")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Provider");
-                });
-
-            modelBuilder.Entity("Core.Entities.Model", b =>
-                {
-                    b.HasOne("Core.Entities.Manufacturer", "Manufacturer")
-                        .WithMany("Models")
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Manufacturer");
-                });
-
-            modelBuilder.Entity("Core.Entities.Provider", b =>
-                {
-                    b.HasOne("Core.Entities.Manufacturer", null)
-                        .WithMany("Providers")
-                        .HasForeignKey("ManufacturerId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -781,6 +749,13 @@ namespace Core.Migrations
                     b.Navigation("Actions");
                 });
 
+            modelBuilder.Entity("Core.Entities.DeviceModel", b =>
+                {
+                    b.Navigation("Actions");
+
+                    b.Navigation("Devices");
+                });
+
             modelBuilder.Entity("Core.Entities.Emirate", b =>
                 {
                     b.Navigation("Actions");
@@ -792,25 +767,14 @@ namespace Core.Migrations
                 {
                     b.Navigation("Actions");
 
-                    b.Navigation("ManufacturerProviders");
-
-                    b.Navigation("Models");
-
-                    b.Navigation("Providers");
-                });
-
-            modelBuilder.Entity("Core.Entities.Model", b =>
-                {
-                    b.Navigation("Actions");
-
-                    b.Navigation("Devices");
+                    b.Navigation("DeviceModels");
                 });
 
             modelBuilder.Entity("Core.Entities.Provider", b =>
                 {
                     b.Navigation("Actions");
 
-                    b.Navigation("ManufacturerProviders");
+                    b.Navigation("Manufacturers");
                 });
 
             modelBuilder.Entity("Core.Entities.Shop", b =>

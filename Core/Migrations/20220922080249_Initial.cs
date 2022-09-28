@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Core.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -293,7 +293,7 @@ namespace Core.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Models",
+                name: "DeviceModels",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
@@ -313,9 +313,9 @@ namespace Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Models", x => x.Id);
+                    table.PrimaryKey("PK_DeviceModels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Models_Manufacturers_ManufacturerId",
+                        name: "FK_DeviceModels_Manufacturers_ManufacturerId",
                         column: x => x.ManufacturerId,
                         principalTable: "Manufacturers",
                         principalColumn: "Id",
@@ -334,6 +334,8 @@ namespace Core.Migrations
                     ContactName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactPhoneNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ContactEmailAddress = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ManufacturerId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -406,15 +408,15 @@ namespace Core.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Devices_Emirates_EmirateId",
-                        column: x => x.EmirateId,
-                        principalTable: "Emirates",
+                        name: "FK_Devices_DeviceModels_ModelId",
+                        column: x => x.ModelId,
+                        principalTable: "DeviceModels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Devices_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
+                        name: "FK_Devices_Emirates_EmirateId",
+                        column: x => x.EmirateId,
+                        principalTable: "Emirates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -475,11 +477,11 @@ namespace Core.Migrations
                     ModifiedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DeviceId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    DeviceModelId = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     EmirateId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ManufacturerId = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ModelId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ProviderId = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -491,6 +493,12 @@ namespace Core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Actions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Actions_DeviceModels_DeviceModelId",
+                        column: x => x.DeviceModelId,
+                        principalTable: "DeviceModels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Actions_Devices_DeviceId",
                         column: x => x.DeviceId,
@@ -507,12 +515,6 @@ namespace Core.Migrations
                         name: "FK_Actions_Manufacturers_ManufacturerId",
                         column: x => x.ManufacturerId,
                         principalTable: "Manufacturers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Actions_Models_ModelId",
-                        column: x => x.ModelId,
-                        principalTable: "Models",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -542,6 +544,11 @@ namespace Core.Migrations
                 column: "DeviceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Actions_DeviceModelId",
+                table: "Actions",
+                column: "DeviceModelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Actions_EmirateId",
                 table: "Actions",
                 column: "EmirateId");
@@ -550,11 +557,6 @@ namespace Core.Migrations
                 name: "IX_Actions_ManufacturerId",
                 table: "Actions",
                 column: "ManufacturerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Actions_ModelId",
-                table: "Actions",
-                column: "ModelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Actions_ProviderId",
@@ -609,6 +611,11 @@ namespace Core.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_DeviceModels_ManufacturerId",
+                table: "DeviceModels",
+                column: "ManufacturerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Devices_EmirateId",
                 table: "Devices",
                 column: "EmirateId");
@@ -637,11 +644,6 @@ namespace Core.Migrations
                 name: "IX_ManufacturerProvider_ProviderId",
                 table: "ManufacturerProvider",
                 column: "ProviderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Models_ManufacturerId",
-                table: "Models",
-                column: "ManufacturerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Providers_ManufacturerId",
@@ -685,10 +687,10 @@ namespace Core.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Emirates");
+                name: "DeviceModels");
 
             migrationBuilder.DropTable(
-                name: "Models");
+                name: "Emirates");
 
             migrationBuilder.DropTable(
                 name: "Shops");

@@ -22,9 +22,17 @@ namespace API.MappingProfiles
 
             CreateMap<ManufacturerViewModel, Manufacturer>().ReverseMap()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateManufacturerViewModel, Manufacturer>().ReverseMap()
+          .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateManufacturerViewModel, Manufacturer>().ReverseMap()
+                      .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-            CreateMap<ModelViewModel, Model>().ReverseMap()
+            CreateMap<DeviceModelViewModel, DeviceModel>().ReverseMap()
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateDeviceModelViewModel, DeviceModel>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateDeviceModelViewModel, DeviceModel>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ProviderViewModel, Provider>().ReverseMap()
            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
@@ -34,6 +42,10 @@ namespace API.MappingProfiles
            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<StatusViewModel, Status>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateStatusViewModel, Status>().ReverseMap()
+           .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateStatusViewModel, Status>().ReverseMap()
            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
         }
