@@ -1,0 +1,67 @@
+﻿@model IPagedList<User>
+
+<div class="row">
+    <div class="col-12">
+        @if (TempData["SuccessMessage"] != null && TempData["SuccessMessage"].ToString() != "")
+        {
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                @Html.Raw( @TempData["SuccessMessage"])
+            </div>
+        }
+        <div class="card">
+            <div class="card-header">
+                <div class="card-tools">
+                    <a asp-controller="users" asp-action="Create" class="btn btn-block btn-primary"><i class="fa fa-plus"></i> Add new</a>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone number</th>
+                            <th>Email address</th>
+                            <th>Active</th>
+                            <th>Blocked</th>
+                            <th>Created By</th>
+                            <th>Created At</th>
+                            <th>Modified By</th>
+                            <th>Modified At</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (User user in Model)
+                        {
+                            <tr>
+                                <td>@(user.FirstName + " " +user.LastName)</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.Email</td>
+                                <td>@user.IsActive</td>
+                                <td>@user.IsBlocked</td>
+                                <td>@user.CreatedBy</td>
+                                <td>@user.CreatedAt</td>
+                                <td>@user.ModifiedBy</td>
+                                <td>@user.ModifiedAt</td>
+                                <td>
+                                    <a asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                    <a asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                new PagedListRenderOptions
+                {
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
+                UlElementClasses = new string[] { "pagination", "float-right" }
+                })
+            </div>
+        </div>
+    </div>
+</div>

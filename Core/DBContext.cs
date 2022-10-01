@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class DBContext : IdentityDbContext<User, IdentityRole, string>
+    public class DBContext : IdentityDbContext<User, Role, string>
     {
 
         private string LocalDBConnection = "Server=localhost;Port=3306;Database=pos_management_db;Uid=root;Pwd=;ConvertZeroDateTime=True;";
@@ -65,9 +65,9 @@ namespace Core
             builder.Entity<Device>().Property(c => c.SIMCardSerialNumber).IsRequired();
             builder.Entity<Device>().Property(c => c.IsDeployed).IsRequired();
             builder.Entity<Device>().Property(c => c.IsActive).HasDefaultValue(true);
-            builder.Entity<Device>().HasOne(d => d.Shop).WithMany(s => s.Devices).HasForeignKey(w => w.ShopId);
-            builder.Entity<Device>().HasOne(d => d.User).WithMany(s => s.Devices).HasForeignKey(w => w.UserId);
-            builder.Entity<Device>().HasOne(d => d.Emirate).WithMany(s => s.Devices).HasForeignKey(w => w.EmirateId);
+            builder.Entity<Device>().HasOne(d => d.Shop).WithMany(s => s.Devices).HasForeignKey(w => w.ShopId).IsRequired(false);
+            builder.Entity<Device>().HasOne(d => d.User).WithMany(s => s.Devices).HasForeignKey(w => w.UserId).IsRequired(false);
+            builder.Entity<Device>().HasOne(d => d.Emirate).WithMany(s => s.Devices).HasForeignKey(w => w.EmirateId).IsRequired(false);
             builder.Entity<Device>().HasOne(d => d.Status).WithMany(s => s.Devices).HasForeignKey(w => w.StatusId);
             builder.Entity<Device>().HasOne(d => d.Model).WithMany(s => s.Devices).HasForeignKey(w => w.ModelId);
             //Emirate
@@ -99,7 +99,6 @@ namespace Core
             builder.Entity<Shop>().Property(c => c.Name).IsRequired();
             builder.Entity<Shop>().Property(c => c.PhoneNumber).IsRequired();
             builder.Entity<Shop>().Property(c => c.IsActive).HasDefaultValue(true);
-            builder.Entity<Shop>().HasOne(d => d.User).WithMany(s => s.Shops).HasForeignKey(w => w.UserId);
             //Status
             builder.Entity<Status>().HasKey(c => c.Id);
             builder.Entity<Status>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();

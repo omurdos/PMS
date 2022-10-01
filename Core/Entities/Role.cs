@@ -7,19 +7,8 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class User : IdentityUser
+    public class Role : IdentityRole
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName
-        {
-            get
-            {
-                return FirstName + " " + LastName;
-            }
-        }
-        public string Password { get; set; }
-        public ICollection<Device> Devices { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsBlocked { get; set; }

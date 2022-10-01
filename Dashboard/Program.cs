@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DBContext>();
-builder.Services.AddIdentity<User, IdentityRole>(
+builder.Services.AddIdentity<User, Role>(
                 options =>
                 {
                     options.User.AllowedUserNameCharacters = "0123456789";

@@ -10,8 +10,16 @@ namespace API.MappingProfiles
         {
             CreateMap<UserViewModel, User>().ReverseMap()
              .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateUserViewModel, User>().ReverseMap()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateUserViewModel, User>().ReverseMap()
+                        .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<ShopViewModel, Shop>().ReverseMap()
+             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<CreateShopViewModel, Shop>().ReverseMap()
+             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UpdateShopViewModel, Shop>().ReverseMap()
              .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<DeviceViewModel, Device>().ReverseMap()
