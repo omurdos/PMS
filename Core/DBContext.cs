@@ -23,7 +23,8 @@ namespace Core
         public virtual DbSet<Provider> Providers { get; set; }
         public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<Status> Statuses { get; set; }
-
+        public virtual DbSet<ApplicationCategory> ApplicaionCategories { get; set; }
+        public virtual DbSet<Application> Applicaions{ get; set; }
 
         public DBContext()
         {
@@ -104,17 +105,24 @@ namespace Core
             builder.Entity<Status>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Status>().Property(c => c.Name).IsRequired();
             builder.Entity<Status>().Property(c => c.IsActive).HasDefaultValue(true);
+            //Applications
+            builder.Entity<Application>().HasKey(c => c.Id);
+            builder.Entity<Application>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<Application>().Property(c => c.Version).IsRequired();
+            builder.Entity<Application>().Property(c => c.IsActive).HasDefaultValue(true);
 
-       //     builder.Entity<ManufacturerProvider>()
-       //.HasKey(bc => new { bc.ManufacturerId, bc.ProviderId });
-       //     builder.Entity<ManufacturerProvider>()
-       //         .HasOne(bc => bc.Provider)
-       //         .WithMany(b => b.ManufacturerProviders)
-       //         .HasForeignKey(bc => bc.ProviderId);
-       //     builder.Entity<ManufacturerProvider>()
-       //         .HasOne(bc => bc.Manufacturer)
-       //         .WithMany(c => c.ManufacturerProviders)
-       //         .HasForeignKey(bc => bc.ManufacturerId);
+
+
+            //     builder.Entity<ManufacturerProvider>()
+            //.HasKey(bc => new { bc.ManufacturerId, bc.ProviderId });
+            //     builder.Entity<ManufacturerProvider>()
+            //         .HasOne(bc => bc.Provider)
+            //         .WithMany(b => b.ManufacturerProviders)
+            //         .HasForeignKey(bc => bc.ProviderId);
+            //     builder.Entity<ManufacturerProvider>()
+            //         .HasOne(bc => bc.Manufacturer)
+            //         .WithMany(c => c.ManufacturerProviders)
+            //         .HasForeignKey(bc => bc.ManufacturerId);
 
             //Manufacturer & Provider relation configuration
             // builder.Entity<Provider>()

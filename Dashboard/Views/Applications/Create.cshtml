@@ -1,0 +1,60 @@
+﻿@model CreateApplicationViewModel
+@{
+    List<ApplicationCategory> categories = ViewBag.Categories;
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <form asp-controller="applications" asp-action="Create" method="post" enctype='multipart/form-data'>
+                <div class="card-body">
+                    @* <div class="form-group">
+                    <label asp-for="Name">Name</label>
+                    <input type="text" class="form-control" asp-for="Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                    </div> *@
+                    <div class="form-group">
+                        <label>Select Application</label>
+                        <select asp-for="ApplicationCategoryId" class="form-control select2bs4">
+                            <option>Application category</option>
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Version">Version</label>
+                        <input type="text" class="form-control" asp-for="Version">
+                        <span class="text-danger" asp-validation-for="Version"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" asp-for="File">
+                                <label class="custom-file-label" asp-for="File">Choose file</label>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Upload</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary  float-right  ml-1">Submit</button>
+                    <a class="btn btn-danger  float-right" asp-controller="roles" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Select2 -->
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script>
+        $(function() {
+            bsCustomFileInput.init();
+        });
+    </script>
+}

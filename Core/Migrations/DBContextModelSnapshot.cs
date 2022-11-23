@@ -25,6 +25,12 @@ namespace Core.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("ApplicationCategoryId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ApplicationId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -64,6 +70,10 @@ namespace Core.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationCategoryId");
+
+                    b.HasIndex("ApplicationId");
+
                     b.HasIndex("DeviceId");
 
                     b.HasIndex("DeviceModelId");
@@ -79,6 +89,81 @@ namespace Core.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Actions");
+                });
+
+            modelBuilder.Entity("Core.Entities.Application", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ApplicationCategoryId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationCategoryId");
+
+                    b.ToTable("Applicaions");
+                });
+
+            modelBuilder.Entity("Core.Entities.ApplicationCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicaionCategories");
                 });
 
             modelBuilder.Entity("Core.Entities.Device", b =>
@@ -642,6 +727,16 @@ namespace Core.Migrations
 
             modelBuilder.Entity("Core.Entities.Action", b =>
                 {
+                    b.HasOne("Core.Entities.ApplicationCategory", null)
+                        .WithMany("Actions")
+                        .HasForeignKey("ApplicationCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Core.Entities.Application", null)
+                        .WithMany("Actions")
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Core.Entities.Device", null)
                         .WithMany("Actions")
                         .HasForeignKey("DeviceId")
@@ -676,6 +771,16 @@ namespace Core.Migrations
                         .WithMany("Actions")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Core.Entities.Application", b =>
+                {
+                    b.HasOne("Core.Entities.ApplicationCategory", "ApplicationCategory")
+                        .WithMany("Applications")
+                        .HasForeignKey("ApplicationCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("ApplicationCategory");
                 });
 
             modelBuilder.Entity("Core.Entities.Device", b =>
@@ -785,6 +890,18 @@ namespace Core.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.Application", b =>
+                {
+                    b.Navigation("Actions");
+                });
+
+            modelBuilder.Entity("Core.Entities.ApplicationCategory", b =>
+                {
+                    b.Navigation("Actions");
+
+                    b.Navigation("Applications");
                 });
 
             modelBuilder.Entity("Core.Entities.Device", b =>

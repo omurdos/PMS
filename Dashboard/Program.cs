@@ -1,5 +1,6 @@
 using Core;
 using Core.Entities;
+using JassimAPIs.Services;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<DBContext>();
+builder.Services.AddTransient<IFileUploader, FileUploader>();
 builder.Services.AddIdentity<User, Role>(
                 options =>
                 {
