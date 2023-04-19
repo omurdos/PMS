@@ -15,7 +15,7 @@ namespace Dashboard.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Applications");
         }
 
         public IActionResult Privacy()

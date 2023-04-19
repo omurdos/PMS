@@ -10,7 +10,6 @@ namespace Core.Entities
     {
         public string FileName { get; set; }
         public string Version { get; set; }
-       // public string FilePath { get; set; }
         public string ApplicationCategoryId { get; set; }
         public ApplicationCategory ApplicationCategory { get; set; }
 

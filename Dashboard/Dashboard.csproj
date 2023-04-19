@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\applications\" />
+    <Folder Include="wwwroot\sources\PayJM\" />
   </ItemGroup>
 
 </Project>

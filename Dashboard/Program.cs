@@ -2,6 +2,8 @@ using Core;
 using Core.Entities;
 using JassimAPIs.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +34,21 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+var provider = new FileExtensionContentTypeProvider();
+// Add new mappings
+provider.Mappings[".apk"] = "application/x-msdownload";
+provider.Mappings[".css"] = "application/x-msdownload";
+provider.Mappings[".js"] = "application/x-msdownload";
+provider.Mappings[".png"] = "application/x-msdownload";
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "sources")),
+    RequestPath = "/sources",
+    ContentTypeProvider = provider
+});
+app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();

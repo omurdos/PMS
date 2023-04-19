@@ -27,7 +27,7 @@ namespace Dashboard.Controllers
 
             try
             {
-                var applications = await _context.Applicaions.Include(ap => ap.ApplicationCategory).ToListAsync();
+                var applications = await _context.Applicaions.Include(ap => ap.ApplicationCategory).OrderByDescending(a => a.Version).ToListAsync();
                 return View(applications.ToPagedList(Page ?? 1, 10));
             }
             catch (Exception)
@@ -136,9 +136,17 @@ namespace Dashboard.Controllers
         }
 
         // GET: ApplicationsController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST: ApplicationsController/Delete/5

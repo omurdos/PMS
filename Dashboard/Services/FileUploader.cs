@@ -6,6 +6,7 @@ namespace JassimAPIs.Services
     public interface IFileUploader
     {
         public Task<FileUploadResult> Upload(IFormFile file, string folder, string version);
+        public bool Remove(string fileName, string category);
     }
 
 
@@ -16,7 +17,7 @@ namespace JassimAPIs.Services
         public FileUploader(Microsoft.AspNetCore.Hosting.IHostingEnvironment webHostEnvironment)
         {
             _hostingEnvironment = webHostEnvironment;
-            ImagesRootPath = Path.Combine(_hostingEnvironment.WebRootPath, "applications");
+            ImagesRootPath = Path.Combine(_hostingEnvironment.WebRootPath, "sources");
 
         }
         public async Task<FileUploadResult> Upload(IFormFile file, string folder, string version)
@@ -73,6 +74,21 @@ namespace JassimAPIs.Services
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public bool Remove(string fileName, string category)
+        {
+            try
+            {
+                string filePath = Path.Combine(ImagesRootPath, category, fileName);
+                File.Delete(filePath);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
                 throw;
             }
         }
