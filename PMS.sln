@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{1335BDE3-B0B9-4AE0-BA3E-F3FE5FE3B081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{C6566401-52C5-453D-AB95-D20838310D5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard", "Dashboard\Dashboard.csproj", "{C6566401-52C5-453D-AB95-D20838310D5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Core.Tests\Core.Tests.csproj", "{0DFD6192-0DB1-4D5F-90AD-126821478D1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C6566401-52C5-453D-AB95-D20838310D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6566401-52C5-453D-AB95-D20838310D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6566401-52C5-453D-AB95-D20838310D5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DFD6192-0DB1-4D5F-90AD-126821478D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DFD6192-0DB1-4D5F-90AD-126821478D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DFD6192-0DB1-4D5F-90AD-126821478D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DFD6192-0DB1-4D5F-90AD-126821478D1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

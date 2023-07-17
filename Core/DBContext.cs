@@ -51,7 +51,7 @@ namespace Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseMySql(remoteDBConnection, ServerVersion.Parse("10.4.22"));
+            //optionsBuilder.UseMySql(remoteDBConnection, ServerVersion.Parse("10.4.22"));
         }
 
         private void ConfigureRelations(ModelBuilder builder)
@@ -114,7 +114,10 @@ namespace Core
             builder.Entity<Application>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
             builder.Entity<Application>().Property(c => c.Version).IsRequired();
             builder.Entity<Application>().Property(c => c.IsActive).HasDefaultValue(true);
-
+            //ApplicationCategories
+            builder.Entity<ApplicationCategory>().HasKey(c => c.Id);
+            builder.Entity<ApplicationCategory>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+            builder.Entity<ApplicationCategory>().Property(c => c.Name).IsRequired();
 
 
             //     builder.Entity<ManufacturerProvider>()
