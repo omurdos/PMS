@@ -13,11 +13,8 @@ namespace Core
     public class DBContext : IdentityDbContext<User, Role, string>
     {
 
-        //remote password 1Izp1YVb92
         private string LocalDBConnection = "Server=localhost;Port=3306;Database=pos_management_db;Uid=root;Pwd=;ConvertZeroDateTime=True;";
         private string remoteDBConnection = "Server=localhost;Port=3306;Database=pos_management_db;Uid=root;Pwd=;ConvertZeroDateTime=True;";
-        //private string remoteDBConnection = "Server=86.98.71.233;Port=8088;Database=pos_management_db;Uid=root";
-        //private string remoteDBConnection = "Server=localhost;Port=3306;Database=pos_management_db;Uid=root;";
 
         public virtual DbSet<Entities.Action> Actions { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
